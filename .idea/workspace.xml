@@ -2,56 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64793ab1-246c-4e95-b81b-ec98936c53b1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/util.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Project Statement.pdf" afterPath="$PROJECT_DIR$/assignment.pdf" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p01" afterPath="$PROJECT_DIR$/data/problem/p01" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p02" afterPath="$PROJECT_DIR$/data/problem/p02" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p03" afterPath="$PROJECT_DIR$/data/problem/p03" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p04" afterPath="$PROJECT_DIR$/data/problem/p04" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p05" afterPath="$PROJECT_DIR$/data/problem/p05" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p06" afterPath="$PROJECT_DIR$/data/problem/p06" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p07" afterPath="$PROJECT_DIR$/data/problem/p07" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p08" afterPath="$PROJECT_DIR$/data/problem/p08" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p09" afterPath="$PROJECT_DIR$/data/problem/p09" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p10" afterPath="$PROJECT_DIR$/data/problem/p10" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p11" afterPath="$PROJECT_DIR$/data/problem/p11" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p12" afterPath="$PROJECT_DIR$/data/problem/p12" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p13" afterPath="$PROJECT_DIR$/data/problem/p13" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p14" afterPath="$PROJECT_DIR$/data/problem/p14" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p15" afterPath="$PROJECT_DIR$/data/problem/p15" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p16" afterPath="$PROJECT_DIR$/data/problem/p16" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p17" afterPath="$PROJECT_DIR$/data/problem/p17" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p18" afterPath="$PROJECT_DIR$/data/problem/p18" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p19" afterPath="$PROJECT_DIR$/data/problem/p19" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p20" afterPath="$PROJECT_DIR$/data/problem/p20" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p21" afterPath="$PROJECT_DIR$/data/problem/p21" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p22" afterPath="$PROJECT_DIR$/data/problem/p22" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Data Files/p23" afterPath="$PROJECT_DIR$/data/problem/p23" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Description for Data and Solution files.pdf" afterPath="$PROJECT_DIR$/data/description.pdf" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p01.res" afterPath="$PROJECT_DIR$/data/solution/p01.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p02.res" afterPath="$PROJECT_DIR$/data/solution/p02.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p03.res" afterPath="$PROJECT_DIR$/data/solution/p03.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p04.res" afterPath="$PROJECT_DIR$/data/solution/p04.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p05.res" afterPath="$PROJECT_DIR$/data/solution/p05.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p06.res" afterPath="$PROJECT_DIR$/data/solution/p06.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p07.res" afterPath="$PROJECT_DIR$/data/solution/p07.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p08.res" afterPath="$PROJECT_DIR$/data/solution/p08.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p09.res" afterPath="$PROJECT_DIR$/data/solution/p09.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p10.res" afterPath="$PROJECT_DIR$/data/solution/p10.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p11.res" afterPath="$PROJECT_DIR$/data/solution/p11.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p12.res" afterPath="$PROJECT_DIR$/data/solution/p12.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p13.res" afterPath="$PROJECT_DIR$/data/solution/p13.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p14.res" afterPath="$PROJECT_DIR$/data/solution/p14.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p15.res" afterPath="$PROJECT_DIR$/data/solution/p15.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p16.res" afterPath="$PROJECT_DIR$/data/solution/p16.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p17.res" afterPath="$PROJECT_DIR$/data/solution/p17.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p18.res" afterPath="$PROJECT_DIR$/data/solution/p18.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p19.res" afterPath="$PROJECT_DIR$/data/solution/p19.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p20.res" afterPath="$PROJECT_DIR$/data/solution/p20.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p21.res" afterPath="$PROJECT_DIR$/data/solution/p21.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p22.res" afterPath="$PROJECT_DIR$/data/solution/p22.res" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data/Solution Files/p23.res" afterPath="$PROJECT_DIR$/data/solution/p23.res" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/genetic-algorithms.iml" afterPath="$PROJECT_DIR$/.idea/genetic-algorithms.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/util.py" afterPath="$PROJECT_DIR$/src/util.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -65,31 +19,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="26" lean-forward="true" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
-              <folding />
+            <state relative-caret-position="690">
+              <caret line="46" column="25" lean-forward="true" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="p01" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/problem/p01">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="4" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+            <state relative-caret-position="410">
+              <caret line="106" column="0" lean-forward="true" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -110,9 +56,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/reader.py" />
+        <option value="$PROJECT_DIR$/src/Customers.py" />
+        <option value="$PROJECT_DIR$/src/Customer.py" />
+        <option value="$PROJECT_DIR$/src/plotter.py" />
         <option value="$PROJECT_DIR$/src/util.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -122,9 +71,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1435" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -141,8 +91,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -155,6 +103,23 @@
               <item name="genetic-algorithms" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="genetic-algorithms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="genetic-algorithms" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="genetic-algorithms" type="cbb8eebc:String" user="genetic-algorithms" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -165,6 +130,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="add_unversioned_files" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -217,28 +183,39 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="0" y="24" width="1435" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947736" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947736" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -254,19 +231,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="4" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/problem/p16">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -274,7 +242,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -282,7 +249,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -290,7 +256,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -298,7 +263,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -310,10 +274,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Customer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="36" lean-forward="false" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/matplotlib/axes/_axes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="3931" column="30" lean-forward="true" selection-start-line="3931" selection-start-column="30" selection-end-line="3931" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/plotter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="57" column="51" lean-forward="true" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="26" lean-forward="true" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
+        <state relative-caret-position="690">
+          <caret line="46" column="25" lean-forward="true" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="106" column="0" lean-forward="true" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
           <folding />
         </state>
       </provider>
