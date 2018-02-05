@@ -1,6 +1,8 @@
 from typing import Tuple
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import numpy as np
+from problem import Problem
 
 
 def parse_problem(filename: str) -> Tuple:
@@ -17,13 +19,13 @@ def parse_problem(filename: str) -> Tuple:
         customers.append(list(map(lambda e: int(e), file.readline().split())))
     for i in range(number_of_depots):
         depots[i].extend(list(map(lambda e: int(e), file.readline().split())))
-    return customers, depots, number_of_vehicles
+    return Problem(np.array(customers), np.array(depots), number_of_vehicles)
 
 
 def plot_problem(data):
-    customers = data[0]
-    depots = data[1]
-    number_of_vehicles = data[2]
+    customers = data.customers
+    depots = data.depots
+    number_of_vehicles = data.number_of_vehicles
 
     for c in customers:
         x = c[1]
@@ -37,8 +39,9 @@ def plot_problem(data):
         for i in range(number_of_vehicles):
             plt.scatter(x, y, color='yellow')
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5,
-               handles=[mpatches.Patch(color='blue', label='Customers'), mpatches.Patch(color='red', label='Depots'),
-                        mpatches.Patch(color='yellow', label='Vehicles')])
+               handles=[mpatches.Patch(color='blue', label=str(len(customers)) + ' Customers'),
+                        mpatches.Patch(color='red', label=str(len(depots)) + ' Depots'),
+                        mpatches.Patch(color='yellow', label=str(number_of_vehicles) + ' Vehicles')])
     plt.show()
 
 
