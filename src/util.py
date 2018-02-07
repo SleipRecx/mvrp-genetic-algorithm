@@ -5,20 +5,22 @@ import numpy as np
 from problem import Problem
 
 
-def parse_problem(filename: str) -> Tuple:
+def parse_problem(filename: str) -> Problem:
     file = open(filename, "r")
     line1 = list(map(lambda e: int(e), file.readline().split()))
     number_of_vehicles = line1[0]
     number_of_customers = line1[1]
     number_of_depots = line1[2]
     depots = []
+    tmp_depots = []
     customers = []
     for i in range(number_of_depots):
-        depots.append(list(map(lambda e: int(e), file.readline().split())))
+        tmp_depots.append(list(map(lambda e: int(e), file.readline().split())))
     for i in range(number_of_customers):
-        customers.append(list(map(lambda e: int(e), file.readline().split())))
+        customers.append(list(map(lambda e: int(e), file.readline().split()[0:5])))
     for i in range(number_of_depots):
-        depots[i].extend(list(map(lambda e: int(e), file.readline().split())))
+        depots.append(list(map(lambda e: int(e), file.readline().split()[0:3])))
+        depots[i].extend(tmp_depots[i])
     return Problem(np.array(customers), np.array(depots), number_of_vehicles)
 
 
@@ -35,7 +37,7 @@ def plot_problem(data):
     for d in depots:
         x = d[3]
         y = d[4]
-        plt.scatter(x, y, color='red', s=200)
+        plt.scatter(x, y, color='red', s=100)
         for i in range(number_of_vehicles):
             plt.scatter(x, y, color='yellow')
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5,
@@ -43,6 +45,7 @@ def plot_problem(data):
                         mpatches.Patch(color='red', label=str(len(depots)) + ' Depots'),
                         mpatches.Patch(color='yellow', label=str(number_of_vehicles) + ' Vehicles')])
     plt.show()
+
 
 
 if __name__ == '__main__':
