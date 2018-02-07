@@ -3,6 +3,7 @@ from collections import defaultdict
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import random
 
 
 def read_problem_file(filename: str) -> Tuple:
@@ -34,26 +35,34 @@ def read_problem_file(filename: str) -> Tuple:
     return customers, depots, max_vehicles
 
 
-"""
-def plot_problem(data):
+def plot(data):
     customers = data.customers
     depots = data.depots
-    number_of_vehicles = data.number_of_vehicles
+    routes = data.routes
 
-    for c in customers:
-        x = c[1]
-        y = c[2]
+    plt.title("Fitness = " + str(round(data.calculate_fitness(), 7)))
+
+    for customer_id in customers:
+        x = customers[customer_id][0][0]
+        y = customers[customer_id][0][1]
         plt.scatter(x, y, color='blue')
 
-    for d in depots:
-        x = d[3]
-        y = d[4]
-        plt.scatter(x, y, color='red', s=100)
-        for i in range(number_of_vehicles):
-            plt.scatter(x, y, color='yellow')
+    for depot_id in depots:
+        x_depot = x_start = depots[depot_id][0][0]
+        y_depot = y_start = depots[depot_id][0][1]
+        plt.scatter(x_depot, y_depot, color='red', s=100, marker="s")
+
+        for route in routes[depot_id]:
+            for customer_id in route:
+                x_stop = customers[customer_id][0][0]
+                y_stop = customers[customer_id][0][1]
+                plt.plot([x_start, x_stop], [y_start, y_stop], color="#%06x" % random.randint(0, 0xFFFFFF))
+                x_start = x_stop
+                y_start = y_stop
+
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5,
                handles=[mpatches.Patch(color='blue', label=str(len(customers)) + ' Customers'),
                         mpatches.Patch(color='red', label=str(len(depots)) + ' Depots'),
-                        mpatches.Patch(color='yellow', label=str(number_of_vehicles) + ' Vehicles')])
+                        # mpatches.Patch(color='yellow', label="Fitness = " + str(round(data.calculate_fitness(), 7)))
+                        ])
     plt.show()
-"""

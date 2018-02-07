@@ -4,7 +4,7 @@ from copy import deepcopy
 from collections import defaultdict
 from typing import Dict
 from pprint import pprint
-
+from src.util import plot
 from src.util import read_problem_file
 
 
@@ -62,6 +62,7 @@ class Chromosome:
 if __name__ == '__main__':
     c, d, m = read_problem_file("../data/problem/p01")
     solution = Chromosome(c, d, m)
+    plot(solution)
     print(solution.calculate_fitness())
 
 
