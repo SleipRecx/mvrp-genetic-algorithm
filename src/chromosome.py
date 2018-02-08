@@ -37,19 +37,32 @@ class Chromosome:
         for number in c1_route:
             route = random.choice(c2.routes[depot_id])
             route.append(number)
-
         return c1, c2
 
-    def intra_depot_swapping(self) -> None:
-        depot_id = random.choice(list(self.depots.keys()))
-        route1 = random.choice(list(filter(lambda x: len(x) > 0, self.routes[depot_id])))
-        route2 = random.choice(self.routes[depot_id])
-        customer = random.choice(route1)
-        route1.remove(customer)
-        position = random.randint(0, len(route2))
-        route2.insert(position, customer)
+    def intra_depot_mutation(self):
+        def swapping() -> None:
+            depot_id = random.choice(list(self.depots.keys()))
+            route1 = random.choice(list(filter(lambda x: len(x) > 0, self.routes[depot_id])))
+            route2 = random.choice(self.routes[depot_id])
+            customer = random.choice(route1)
+            route1.remove(customer)
+            position = random.randint(0, len(route2))
+            route2.insert(position, customer)
 
-    def intra_depot_reversal(self) -> None:
+        def route_reversal() -> None:
+            depot_id = random.choice(list(self.depots.keys()))
+            route = random.choice(list(filter(lambda x: len(x) > 0, self.routes[depot_id])))
+            points = [random.randint(0, len(route)), random.randint(0, len(route))]
+            points.sort()
+            route[points[0]:points[1]] = list(reversed(route[points[0]:points[1]]))
+
+        mutate = random.choice([route_reversal, swapping])
+        if random.random() > 0.2:
+            mutate()
+
+    # TODO: Implement
+    def inter_depot_mutation(self):
+        pass
 
     def get_customer_cluster(self) -> Dict:
         cluster = defaultdict(list)
@@ -92,16 +105,17 @@ class Chromosome:
 
     def calculate_fitness(self):
         distance = 0
-        load_exceeded_count = 0
         for depot_id, routes in self.routes.items():
             depot_coordinate = self.depots[depot_id][0]
             for route in routes:
                 demand = sum(list(map(lambda x: self.customers[x][2], route)))
-                if demand > self.depots[depot_id][2]:
-                    load_exceeded_count += 1
+                exceeded_amount = demand - self.depots[depot_id][2]
                 trip = list(map(lambda x: self.customers[x][0], route))
                 trip.append(depot_coordinate)
                 trip.insert(0, depot_coordinate)
                 for i in range(len(trip) - 1):
-                    distance += np.linalg.norm(trip[i] - trip[i + 1])
-        return (1 / (distance + 1 * (load_exceeded_count + 1))) * 1000
+                    if exceeded_amount > 0:
+                        distance += np.linalg.norm(trip[i] - trip[i + 1]) * (exceeded_amount + 1)
+                    else:
+                        distance += np.linalg.norm(trip[i] - trip[i + 1])
+        return 1 / (distance + 1) * 1000
