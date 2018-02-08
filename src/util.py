@@ -44,7 +44,7 @@ def plot(solution) -> None:
     for customer_id in customers:
         x = customers[customer_id][0][0]
         y = customers[customer_id][0][1]
-        plt.plot(x, y, color='blue')
+        plt.scatter(x, y, color='blue')
 
     for depot_id in depots:
         x_depot = depots[depot_id][0][0]
