@@ -3,7 +3,6 @@ from collections import defaultdict
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from itertools import cycle
 
 
 def read_problem_file(filename: str) -> Tuple:
@@ -39,7 +38,6 @@ def plot(data):
     customers = data.customers
     depots = data.depots
     routes = data.routes
-    cycol = cycle('grcm')
 
     plt.title("Fitness = " + str(round(data.calculate_fitness(), 7)))
 
@@ -49,18 +47,19 @@ def plot(data):
         plt.scatter(x, y, color='blue')
 
     for depot_id in depots:
-        x_depot = x_start = depots[depot_id][0][0]
-        y_depot = y_start = depots[depot_id][0][1]
+        x_depot = depots[depot_id][0][0]
+        y_depot = depots[depot_id][0][1]
+
         plt.scatter(x_depot, y_depot, color='red', marker="s")
 
         for route in routes[depot_id]:
-            color = next(cycol)
-            for customer_id in route:
-                x_stop = customers[customer_id][0][0]
-                y_stop = customers[customer_id][0][1]
-                plt.plot([x_start, x_stop], [y_start, y_stop], color=color)
-                x_start = x_stop
-                y_start = y_stop
+            x_cords = list(map(lambda e: customers[e][0][0], route))
+            y_cords = list(map(lambda e: customers[e][0][1], route))
+            x_cords.append(x_depot)
+            y_cords.append(y_depot)
+            x_cords.insert(0, x_depot)
+            y_cords.insert(0, y_depot)
+            plt.plot(x_cords, y_cords)
 
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5,
                handles=[mpatches.Patch(color='blue', label=str(len(customers)) + ' Customers'),

@@ -42,6 +42,7 @@ class Chromosome:
                 routes[depot_id][route_number].append(customer_id)
         return routes
 
+
     def calculate_fitness(self):
         distance = 0
         load_exceeded_count = 0
