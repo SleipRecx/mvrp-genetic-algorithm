@@ -4,6 +4,7 @@ from copy import deepcopy
 from collections import defaultdict
 from typing import Dict, Tuple
 
+
 class Chromosome:
     def __init__(self, customers, depots, max_vehicles):
         self.customers = customers
@@ -16,31 +17,39 @@ class Chromosome:
         c1 = deepcopy(p1)
         c2 = deepcopy(p2)
 
-        c1_key = list(c1.routes.keys())[0]
-        c2_key = list(c2.routes.keys())[0]
+        depot_id = random.choice(list(c1.depots.keys()))
 
-        c1_remove = c2.routes[c1_key][-1]
-        c2_remove = c1.routes[c2_key][-1]
+        c1_route = random.choice(c1.routes[depot_id])
+        c2_route = random.choice(c2.routes[depot_id])
 
-        for depot_id, routes in c1.routes.items():
+        for _, routes in c1.routes.items():
             for i in range(len(routes)):
-                routes[i] = [x for x in routes[i] if x not in c1_remove]
+                routes[i] = [x for x in routes[i] if x not in c2_route]
 
-        for depot_id, routes in c2.routes.items():
+        for _, routes in c2.routes.items():
             for i in range(len(routes)):
-                routes[i] = [x for x in routes[i] if x not in c2_remove]
+                routes[i] = [x for x in routes[i] if x not in c1_route]
 
-        for number in c1_remove:
-            random_depot = random.choice(list(c1.routes.keys()))
-            random_route = random.choice(c1.routes[random_depot])
-            random_route.append(number)
+        for number in c2_route:
+            route = random.choice(c1.routes[depot_id])
+            route.append(number)
 
-        for number in c2_remove:
-            random_depot = random.choice(list(c2.routes.keys()))
-            random_route = random.choice(c2.routes[random_depot])
-            random_route.append(number)
+        for number in c1_route:
+            route = random.choice(c2.routes[depot_id])
+            route.append(number)
 
         return c1, c2
+
+    def intra_depot_swapping(self) -> None:
+        depot_id = random.choice(list(self.depots.keys()))
+        route1 = random.choice(list(filter(lambda x: len(x) > 0, self.routes[depot_id])))
+        route2 = random.choice(self.routes[depot_id])
+        customer = random.choice(route1)
+        route1.remove(customer)
+        position = random.randint(0, len(route2))
+        route2.insert(position, customer)
+
+    def intra_depot_reversal(self) -> None:
 
     def get_customer_cluster(self) -> Dict:
         cluster = defaultdict(list)
