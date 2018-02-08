@@ -34,12 +34,12 @@ def read_problem_file(filename: str) -> Tuple:
     return customers, depots, max_vehicles
 
 
-def plot(data):
-    customers = data.customers
-    depots = data.depots
-    routes = data.routes
+def plot(solution) -> None:
+    customers = solution.customers
+    depots = solution.depots
+    routes = solution.routes
 
-    plt.title("Fitness = " + str(round(data.calculate_fitness(), 7)))
+    plt.title("Fitness = " + str(round(solution.calculate_fitness(), 7)))
 
     for customer_id in customers:
         x = customers[customer_id][0][0]
@@ -63,7 +63,5 @@ def plot(data):
 
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5,
                handles=[mpatches.Patch(color='blue', label=str(len(customers)) + ' Customers'),
-                        mpatches.Patch(color='red', label=str(len(depots)) + ' Depots'),
-                        # mpatches.Patch(color='yellow', label="Fitness = " + str(round(data.calculate_fitness(), 7)))
-                        ])
+                        mpatches.Patch(color='red', label=str(len(depots)) + ' Depots')])
     plt.show()

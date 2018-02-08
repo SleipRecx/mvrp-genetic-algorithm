@@ -4,8 +4,7 @@ from copy import deepcopy
 from collections import defaultdict
 from typing import Dict
 from pprint import pprint
-from src.util import plot
-from src.util import read_problem_file
+from src.util import read_problem_file, plot
 
 
 class Chromosome:
@@ -42,7 +41,6 @@ class Chromosome:
                 routes[depot_id][route_number].append(customer_id)
         return routes
 
-
     def calculate_fitness(self):
         distance = 0
         load_exceeded_count = 0
@@ -64,7 +62,3 @@ if __name__ == '__main__':
     c, d, m = read_problem_file("../data/problem/p01")
     solution = Chromosome(c, d, m)
     plot(solution)
-    print(solution.calculate_fitness())
-
-
-
