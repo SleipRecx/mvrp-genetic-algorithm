@@ -17,10 +17,10 @@ class Population:
         for generation in range(generations):
             new_population = []
             fittest = self.get_fittest(self.individuals, 1)[0]
-            print(fittest.calculate_distance())
-            if fittest.calculate_distance() < 700:
-                plot(fittest)
-                return
+            # print(fittest.calculate_distance())
+            # if fittest.calculate_distance() < 1000:
+            #     plot(fittest)
+            #     return
             while len(new_population) < size:
                 tournament = random.sample(self.individuals, random.randint(5, len(self.individuals)))
                 winners = self.get_fittest(tournament, 2)
