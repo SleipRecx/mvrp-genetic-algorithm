@@ -3,7 +3,7 @@ from collections import defaultdict
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import random
+from itertools import cycle
 
 
 def read_problem_file(filename: str) -> Tuple:
@@ -39,6 +39,7 @@ def plot(data):
     customers = data.customers
     depots = data.depots
     routes = data.routes
+    cycol = cycle('grcm')
 
     plt.title("Fitness = " + str(round(data.calculate_fitness(), 7)))
 
@@ -50,13 +51,14 @@ def plot(data):
     for depot_id in depots:
         x_depot = x_start = depots[depot_id][0][0]
         y_depot = y_start = depots[depot_id][0][1]
-        plt.scatter(x_depot, y_depot, color='red', s=100, marker="s")
+        plt.scatter(x_depot, y_depot, color='red', marker="s")
 
         for route in routes[depot_id]:
+            color = next(cycol)
             for customer_id in route:
                 x_stop = customers[customer_id][0][0]
                 y_stop = customers[customer_id][0][1]
-                plt.plot([x_start, x_stop], [y_start, y_stop], color="#%06x" % random.randint(0, 0xFFFFFF))
+                plt.plot([x_start, x_stop], [y_start, y_stop], color=color)
                 x_start = x_stop
                 y_start = y_stop
 

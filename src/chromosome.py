@@ -56,7 +56,7 @@ class Chromosome:
                 trip.insert(0, depot_coordinate)
                 for i in range(len(trip) - 1):
                     distance += np.linalg.norm(trip[i] - trip[i + 1])
-        return 1 / (distance + 1 * (load_exceeded_count + 1))
+        return (1 / (distance + 1 * (load_exceeded_count + 1))) * 1000
 
 
 if __name__ == '__main__':
