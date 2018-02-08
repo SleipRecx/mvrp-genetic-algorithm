@@ -39,7 +39,7 @@ class Chromosome:
             route.append(number)
         return c1, c2
 
-    def intra_depot_mutation(self):
+    def intra_depot_mutation(self, probability: float = 0.8):
         def swapping() -> None:
             depot_id = random.choice(list(self.depots.keys()))
             route1 = random.choice(list(filter(lambda x: len(x) > 0, self.routes[depot_id])))
@@ -57,7 +57,7 @@ class Chromosome:
             route[points[0]:points[1]] = list(reversed(route[points[0]:points[1]]))
 
         mutate = random.choice([route_reversal, swapping])
-        if random.random() > 0.2:
+        if random.random() < probability:
             mutate()
 
     # TODO: Implement

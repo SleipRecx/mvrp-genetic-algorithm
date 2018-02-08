@@ -35,6 +35,7 @@ def read_problem_file(filename: str) -> Tuple:
 
 
 def plot(solution) -> None:
+    plt.clf()
     customers = solution.customers
     depots = solution.depots
     routes = solution.routes
@@ -63,4 +64,4 @@ def plot(solution) -> None:
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5,
                handles=[mpatches.Patch(color='blue', label=str(len(customers)) + ' Customers'),
                         mpatches.Patch(color='red', label=str(len(depots)) + ' Depots')])
-    plt.pause(1000)
+    plt.pause(0.001)
