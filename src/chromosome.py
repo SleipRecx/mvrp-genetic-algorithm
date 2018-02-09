@@ -11,6 +11,7 @@ class Chromosome:
         self.depots = depots
         self.max_vehicles = max_vehicles
         self.routes = self.generate_random_routes()
+        self.memory = {}
 
     @classmethod
     def crossover(cls, p1, p2) -> Tuple:
@@ -96,26 +97,29 @@ class Chromosome:
         for depot_id, routes in self.routes.items():
             depot_coordinate = self.depots[depot_id][0]
             for route in routes:
-                trip = list(map(lambda x: self.customers[x][0], route))
-                trip.append(depot_coordinate)
-                trip.insert(0, depot_coordinate)
-                for i in range(len(trip) - 1):
-                    distance += np.linalg.norm(trip[i] - trip[i + 1])
+                key = str(depot_id) + str(route)
+                if key in self.memory:
+                    distance += self.memory[key]
+                else:
+                    trip = list(map(lambda x: self.customers[x][0], route))
+                    trip.append(depot_coordinate)
+                    trip.insert(0, depot_coordinate)
+                    route_distance = 0
+                    for i in range(len(trip) - 1):
+                        route_distance += np.linalg.norm(trip[i] - trip[i + 1])
+                    self.memory[key] = route_distance
+                    distance += route_distance
         return distance
 
-    def calculate_fitness(self):
-        distance = 0
+    def has_excess_load(self):
         for depot_id, routes in self.routes.items():
-            depot_coordinate = self.depots[depot_id][0]
             for route in routes:
                 demand = sum(list(map(lambda x: self.customers[x][2], route)))
-                exceeded_amount = demand - self.depots[depot_id][2]
-                trip = list(map(lambda x: self.customers[x][0], route))
-                trip.append(depot_coordinate)
-                trip.insert(0, depot_coordinate)
-                for i in range(len(trip) - 1):
-                    if exceeded_amount > 0:
-                        distance += np.linalg.norm(trip[i] - trip[i + 1]) * (exceeded_amount + 1)
-                    else:
-                        distance += np.linalg.norm(trip[i] - trip[i + 1])
-        return 1 / (distance + 1) * 1000
+                if demand > self.depots[depot_id][2]:
+                    return True
+        return False
+
+    def calculate_fitness(self):
+        if self.has_excess_load():
+            return - 1
+        return 1 / (self.calculate_distance() + 1) * 1000

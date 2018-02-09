@@ -24,7 +24,8 @@ class Population:
             new_population.extend([c1, c2])
         self.population = new_population
         best = self.get_fittest(self.population, 1)[0]
-        print(best.calculate_distance())
+        print("Distance:", best.calculate_distance())
+        print("Load:", best.has_excess_load())
 
     # top_1 = self.get_fittest(self.individuals, int(0.01 * len(self.individuals)))
     # replace_indices = random.sample(list(range(len(new_population))), len(top_1))
