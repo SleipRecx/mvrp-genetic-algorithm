@@ -1,8 +1,8 @@
 from typing import Tuple
 from collections import defaultdict
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
+#import matplotlib.pyplot as plt
+#import matplotlib.patches as mpatches
 
 
 def read_problem_file(filename: str) -> Tuple:
@@ -33,7 +33,7 @@ def read_problem_file(filename: str) -> Tuple:
         depots[depot_id].extend([coordinate, max_duration, max_load])
     return customers, depots, max_vehicles
 
-
+"""
 def plot(solution) -> None:
     plt.clf()
     customers = solution.customers
@@ -65,3 +65,4 @@ def plot(solution) -> None:
                handles=[mpatches.Patch(color='blue', label=str(len(customers)) + ' Customers'),
                         mpatches.Patch(color='red', label=str(len(depots)) + ' Depots')])
     plt.pause(0.001)
+"""

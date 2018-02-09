@@ -6,17 +6,24 @@ from typing import Dict, Tuple
 
 
 class Chromosome:
-    def __init__(self, customers, depots, max_vehicles):
+    route_memo = {}
+    load_memo = {}
+
+    def __init__(self, customers, depots, max_vehicles, init_routes: bool = True):
         self.customers = customers
         self.depots = depots
         self.max_vehicles = max_vehicles
-        self.routes = self.generate_random_routes()
-        self.memory = {}
+        self.routes = {}
+        if init_routes:
+            self.routes = self.generate_random_routes()
 
     @classmethod
     def crossover(cls, p1, p2) -> Tuple:
-        c1 = deepcopy(p1)
-        c2 = deepcopy(p2)
+        c1 = cls(p1.customers, p1.depots, p1.max_vehicles, False)
+        c2 = cls(p2.customers, p2.depots, p2.max_vehicles, False)
+
+        c1.routes = deepcopy(p1.routes)
+        c2.routes = deepcopy(p2.routes)
 
         depot_id = random.choice(list(c1.depots.keys()))
 
@@ -80,7 +87,6 @@ class Chromosome:
             cluster[best_depot].append(customer_id)
         return cluster
 
-    # TODO: add cars without customers to route (maybe)
     def generate_random_routes(self) -> Dict:
         routes = defaultdict(list)
         cluster = self.get_customer_cluster()
@@ -98,8 +104,8 @@ class Chromosome:
             depot_coordinate = self.depots[depot_id][0]
             for route in routes:
                 key = str(depot_id) + str(route)
-                if key in self.memory:
-                    distance += self.memory[key]
+                if key in Chromosome.route_memo:
+                    distance += Chromosome.route_memo[key]
                 else:
                     trip = list(map(lambda x: self.customers[x][0], route))
                     trip.append(depot_coordinate)
@@ -107,14 +113,19 @@ class Chromosome:
                     route_distance = 0
                     for i in range(len(trip) - 1):
                         route_distance += np.linalg.norm(trip[i] - trip[i + 1])
-                    self.memory[key] = route_distance
+                    Chromosome.route_memo[key] = route_distance
                     distance += route_distance
         return distance
 
     def has_excess_load(self):
         for depot_id, routes in self.routes.items():
             for route in routes:
-                demand = sum(list(map(lambda x: self.customers[x][2], route)))
+                key = str(depot_id) + str(route)
+                if key in Chromosome.load_memo:
+                    demand = Chromosome.load_memo[key]
+                else:
+                    demand = sum(list(map(lambda x: self.customers[x][2], route)))
+                    Chromosome.load_memo[key] = demand
                 if demand > self.depots[depot_id][2]:
                     return True
         return False
