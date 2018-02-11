@@ -4,7 +4,7 @@ from copy import deepcopy
 from collections import defaultdict
 from pprint import pprint
 from typing import Dict, Tuple
-from src.util import read_problem_file
+from src.util import read_problem_file, copy_dict
 
 
 class Chromosome:
@@ -15,6 +15,8 @@ class Chromosome:
         self.customers = customers
         self.depots = depots
         self.max_vehicles = max_vehicles
+        self.customer_cluster = self.get_customer_cluster()
+        self.swap_cluster = self.get_swap_cluster()
         self.routes = {}
         if init_routes:
             self.routes = self.generate_random_routes()
@@ -24,10 +26,10 @@ class Chromosome:
         c1 = cls(p1.customers, p1.depots, p1.max_vehicles, False)
         c2 = cls(p2.customers, p2.depots, p2.max_vehicles, False)
 
-        c1.routes = deepcopy(p1.routes)
-        c2.routes = deepcopy(p2.routes)
+        c1.routes = copy_dict(p1.routes)
+        c2.routes = copy_dict(p2.routes)
 
-        if random.random() > 0.2:  # TODO: remember
+        if random.random() > 0.8:  # TODO: remember
             return c1, c2
 
         depot_id = random.choice(list(c1.depots.keys()))
@@ -92,6 +94,27 @@ class Chromosome:
             cluster[best_depot].append(customer_id)
         return cluster
 
+    def get_swap_cluster(self) -> Dict:
+        cluster = defaultdict(lambda: (int, float("inf")))
+        for customer_id in self.customers:
+            customer_coordinate = self.customers[customer_id][0]
+            for depot_id in self.depots:
+                depot_coordinate = self.depots[depot_id][0]
+                distance = np.linalg.norm(customer_coordinate - depot_coordinate)
+                if distance < cluster[customer_id][1]:
+                    cluster[customer_id] = depot_id, distance
+
+        swap_cluster = defaultdict(list)
+
+        for customer_id in self.customers:
+            customer_coordinate = self.customers[customer_id][0]
+            for depot_id in self.depots:
+                depot_coordinate = self.depots[depot_id][0]
+                distance = np.linalg.norm(customer_coordinate - depot_coordinate)
+                if ((distance - cluster[customer_id][1]) / cluster[customer_id][1]) <= 2:
+                    swap_cluster[customer_id].append(depot_id)
+        return swap_cluster
+
     def generate_random_routes(self) -> Dict:
         routes = defaultdict(list)
         cluster = self.get_customer_cluster()
@@ -138,9 +161,4 @@ class Chromosome:
 
     def calculate_fitness(self):
         load = self.calculate_excess_load()
-        return 1 / (self.calculate_distance() * ((load / 20) + 1)) * 1000
-
-
-if __name__ == '__main__':
-    c, d, m = read_problem_file("../data/problem/p2")
-    solution = Chromosome(c, d, m)
+        return 1 / (self.calculate_distance() * ((load / 2) + 1)) * 1000

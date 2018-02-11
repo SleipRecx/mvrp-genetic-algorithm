@@ -1,8 +1,11 @@
 from typing import Tuple
 from collections import defaultdict
+from typing import Dict
 import numpy as np
-#import matplotlib.pyplot as plt
-#import matplotlib.patches as mpatches
+
+
+# import matplotlib.pyplot as plt
+# import matplotlib.patches as mpatches
 
 
 def read_problem_file(filename: str) -> Tuple:
@@ -32,6 +35,14 @@ def read_problem_file(filename: str) -> Tuple:
         max_load = tmp_depots[i][1]
         depots[depot_id].extend([coordinate, max_duration, max_load])
     return customers, depots, max_vehicles
+
+
+def copy_dict(to_copy: Dict) -> Dict:
+    result = defaultdict(list)
+    for key in to_copy:
+        result[key] = to_copy[key][:]
+    return result
+
 
 """
 def plot(solution) -> None:
