@@ -2,7 +2,9 @@ import numpy as np
 import random
 from copy import deepcopy
 from collections import defaultdict
+from pprint import pprint
 from typing import Dict, Tuple
+from src.util import read_problem_file
 
 
 class Chromosome:
@@ -25,6 +27,9 @@ class Chromosome:
         c1.routes = deepcopy(p1.routes)
         c2.routes = deepcopy(p2.routes)
 
+        if random.random() > 0.2:  # TODO: remember
+            return c1, c2
+
         depot_id = random.choice(list(c1.depots.keys()))
 
         c1_route = random.choice(c1.routes[depot_id])
@@ -40,11 +45,11 @@ class Chromosome:
 
         for number in c2_route:
             route = random.choice(c1.routes[depot_id])
-            route.append(number)
+            route.insert(random.randint(0, len(route)), number)
 
         for number in c1_route:
             route = random.choice(c2.routes[depot_id])
-            route.append(number)
+            route.insert(random.randint(0, len(route)), number)
         return c1, c2
 
     def intra_depot_mutation(self, probability: float = 0.8):
@@ -117,20 +122,25 @@ class Chromosome:
                     distance += route_distance
         return distance
 
-    def has_excess_load(self):
+    def calculate_excess_load(self):
+        excess_load = 0
         for depot_id, routes in self.routes.items():
             for route in routes:
-                key = str(depot_id) + str(route)
+                key = str(route)
                 if key in Chromosome.load_memo:
-                    demand = Chromosome.load_memo[key]
+                    load = Chromosome.load_memo[key]
                 else:
-                    demand = sum(list(map(lambda x: self.customers[x][2], route)))
-                    Chromosome.load_memo[key] = demand
-                if demand > self.depots[depot_id][2]:
-                    return True
-        return False
+                    load = sum(list(map(lambda x: self.customers[x][2], route)))
+                    Chromosome.load_memo[key] = load
+                if load > self.depots[depot_id][2]:
+                    excess_load += load - self.depots[depot_id][2]
+        return excess_load
 
     def calculate_fitness(self):
-        if self.has_excess_load():
-            return - 1
-        return 1 / (self.calculate_distance() + 1) * 1000
+        load = self.calculate_excess_load()
+        return 1 / (self.calculate_distance() * ((load / 20) + 1)) * 1000
+
+
+if __name__ == '__main__':
+    c, d, m = read_problem_file("../data/problem/p2")
+    solution = Chromosome(c, d, m)
