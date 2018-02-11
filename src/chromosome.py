@@ -7,6 +7,12 @@ from typing import Dict, Tuple
 from src.util import read_problem_file, copy_dict
 
 
+def inside_bound(depot_coordinates, customer_coordinates, min_euclidean_distance, bound):
+    return (np.linalg.norm(np.array(depot_coordinates) - np.array(customer_coordinates))
+            - min_euclidean_distance) / min_euclidean_distance <= bound and (
+               np.linalg.norm(np.array(depot_coordinates) - np.array(customer_coordinates != 0)))
+
+
 class Chromosome:
     route_memo = {}
     load_memo = {}
@@ -76,8 +82,25 @@ class Chromosome:
             mutate()
 
     # TODO: Implement
-    def inter_depot_mutation(self):
-        pass
+    def inter_depot_mutation(self, swappable_customer_list, bound) -> None:
+        for customer_id in swappable_customer_list:
+            depot_id = random.choice(list(self.depots.keys()))
+            depot_coordinates = [self.depots[depot_id][0][0], self.depots[depot_id][0][1]]
+            customer_coordinates = [self.customers[customer_id][0][0], self.customers[customer_id][0][1]]
+            current_depot_id = None
+            for depot_id in self.routes:
+                if any(customer_id in sublist for sublist in self.routes[depot_id]):
+                    current_depot_id = depot_id
+                    break
+            current_depot_coordinates = [self.depots[current_depot_id][0][0], self.depots[current_depot_id][0][1]]
+            min_euclidean_distance = np.linalg.norm(np.array(customer_coordinates)-np.array(current_depot_coordinates))
+
+            if inside_bound(depot_coordinates, customer_coordinates, min_euclidean_distance, bound):
+                route_number = random.randint(0, self.max_vehicles - 1)
+                self.routes[depot_id][route_number].append(customer_id)
+                for route in self.routes[depot_id]:
+                    if customer_id in route:
+                        route.remove(customer_id)
 
     def get_customer_cluster(self) -> Dict:
         cluster = defaultdict(list)
