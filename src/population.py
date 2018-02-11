@@ -14,7 +14,9 @@ class Population:
 
     def evolve(self):
         new_population = []
-        for _ in range(len(self.population) // 2):
+        elites = self.get_fittest(self.population, 2)
+        new_population.extend(elites)
+        while len(new_population) <= len(self.population) - 2:
             tournament = random.sample(self.population, random.randint(2, 5))
             winners = self.get_fittest(tournament, 2)
             p1 = winners[0]
@@ -23,10 +25,6 @@ class Population:
             c1.intra_depot_mutation()
             c2.intra_depot_mutation()
             new_population.extend([c1, c2])
-        new_population.sort(key=lambda x: x.calculate_fitness(), reverse=True)
-        top_1 = self.get_fittest(self.population, int(0.01 * len(self.population)))
-        del new_population[-len(top_1):]
-        new_population.extend(top_1)
         self.population = new_population
         best = self.get_fittest(self.population, 1)[0]
         print("Distance:", best.calculate_distance())
@@ -43,6 +41,7 @@ if __name__ == '__main__':
     c, d, m = read_problem_file("../data/problem/p01")
     population = Population(c, d, m)
     start = time.time()
-    for i in range(10000):
+    for i in range(1, 1001):
         population.evolve()
+
     print(time.time() - start)

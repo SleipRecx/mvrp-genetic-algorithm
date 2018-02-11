@@ -7,12 +7,6 @@ from typing import Dict, Tuple
 from src.util import read_problem_file, copy_dict
 
 
-def inside_bound(depot_coordinates, customer_coordinates, min_euclidean_distance, bound):
-    return (np.linalg.norm(np.array(depot_coordinates) - np.array(customer_coordinates))
-            - min_euclidean_distance) / min_euclidean_distance <= bound and (
-               np.linalg.norm(np.array(depot_coordinates) - np.array(customer_coordinates != 0)))
-
-
 class Chromosome:
     route_memo = {}
     load_memo = {}
@@ -21,8 +15,6 @@ class Chromosome:
         self.customers = customers
         self.depots = depots
         self.max_vehicles = max_vehicles
-        self.customer_cluster = self.get_customer_cluster()
-        self.swap_cluster = self.get_swap_cluster()
         self.routes = {}
         if init_routes:
             self.routes = self.generate_random_routes()
@@ -35,7 +27,7 @@ class Chromosome:
         c1.routes = copy_dict(p1.routes)
         c2.routes = copy_dict(p2.routes)
 
-        if random.random() > 0.8:  # TODO: remember
+        if random.random() < 0.4:  # TODO: remember
             return c1, c2
 
         depot_id = random.choice(list(c1.depots.keys()))
@@ -63,44 +55,36 @@ class Chromosome:
     def intra_depot_mutation(self, probability: float = 0.8):
         def swapping() -> None:
             depot_id = random.choice(list(self.depots.keys()))
-            route1 = random.choice(list(filter(lambda x: len(x) > 0, self.routes[depot_id])))
-            route2 = random.choice(self.routes[depot_id])
-            customer = random.choice(route1)
-            route1.remove(customer)
-            position = random.randint(0, len(route2))
-            route2.insert(position, customer)
+            route1 = random.choice(self.routes[depot_id])
+            if len(route1) > 0:
+                route2 = random.choice(self.routes[depot_id])
+                customer = random.choice(route1)
+                route1.remove(customer)
+                position = random.randint(0, len(route2))
+                route2.insert(position, customer)
 
         def route_reversal() -> None:
             depot_id = random.choice(list(self.depots.keys()))
-            route = random.choice(list(filter(lambda x: len(x) > 0, self.routes[depot_id])))
-            points = [random.randint(0, len(route)), random.randint(0, len(route))]
-            points.sort()
-            route[points[0]:points[1]] = list(reversed(route[points[0]:points[1]]))
+            route = random.choice(self.routes[depot_id])
+            if len(route) > 0:
+                points = [random.randint(0, len(route)), random.randint(0, len(route))]
+                points.sort()
+                route[points[0]:points[1]] = list(reversed(route[points[0]:points[1]]))
 
         mutate = random.choice([route_reversal, swapping])
         if random.random() < probability:
             mutate()
 
-    # TODO: Implement
-    def inter_depot_mutation(self, swappable_customer_list, bound) -> None:
-        for customer_id in swappable_customer_list:
+    def inter_depot_mutation(self, probability: float = 0.25) -> None:
+        if random.random() < probability:
             depot_id = random.choice(list(self.depots.keys()))
-            depot_coordinates = [self.depots[depot_id][0][0], self.depots[depot_id][0][1]]
-            customer_coordinates = [self.customers[customer_id][0][0], self.customers[customer_id][0][1]]
-            current_depot_id = None
-            for depot_id in self.routes:
-                if any(customer_id in sublist for sublist in self.routes[depot_id]):
-                    current_depot_id = depot_id
-                    break
-            current_depot_coordinates = [self.depots[current_depot_id][0][0], self.depots[current_depot_id][0][1]]
-            min_euclidean_distance = np.linalg.norm(np.array(customer_coordinates)-np.array(current_depot_coordinates))
-
-            if inside_bound(depot_coordinates, customer_coordinates, min_euclidean_distance, bound):
-                route_number = random.randint(0, self.max_vehicles - 1)
-                self.routes[depot_id][route_number].append(customer_id)
-                for route in self.routes[depot_id]:
-                    if customer_id in route:
-                        route.remove(customer_id)
+            route = random.choice(self.routes[depot_id])
+            if len(route) > 0:
+                customer = random.choice(route)
+                route.remove(customer)
+                depot_id = random.choice(self.get_swap_cluster()[customer])
+                route = random.choice(self.routes[depot_id])
+                route.insert(random.randint(0, len(route)), customer)
 
     def get_customer_cluster(self) -> Dict:
         cluster = defaultdict(list)
@@ -140,9 +124,8 @@ class Chromosome:
 
     def generate_random_routes(self) -> Dict:
         routes = defaultdict(list)
-        cluster = self.get_customer_cluster()
         empty_route = [[] for _ in range(self.max_vehicles)]
-        for depot_id, customers in cluster.items():
+        for depot_id, customers in self.get_customer_cluster().items():
             routes[depot_id] = deepcopy(empty_route)
             for customer_id in customers:
                 route_number = random.randint(0, self.max_vehicles - 1)
@@ -184,4 +167,4 @@ class Chromosome:
 
     def calculate_fitness(self):
         load = self.calculate_excess_load()
-        return 1 / (self.calculate_distance() * ((load / 2) + 1)) * 1000
+        return 1 / (self.calculate_distance() * ((load) + 1)) * 1000
