@@ -90,10 +90,10 @@ class Chromosome:
 
             if inside_bound(depot_coordinates, customer_coordinates, min_euclidean_distance, bound):
                 route_number = random.randint(0, self.max_vehicles - 1)
+                self.routes[depot_id][route_number].append(customer_id)
                 for route in self.routes[depot_id]:
                     if customer_id in route:
                         route.remove(customer_id)
-                self.routes[depot_id][route_number].append(customer_id)
 
     def get_customer_cluster(self) -> Dict:
         cluster = defaultdict(list)
