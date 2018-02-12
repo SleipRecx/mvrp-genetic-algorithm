@@ -7,6 +7,34 @@ from typing import Dict, Tuple
 from src.util import read_problem_file, copy_dict
 
 
+def put_in_least_cost_place(chromosome, route, depot_id):
+    for crossover_customer_id in route:
+        best_customer_to_follow = [None, float('inf')]
+        crossover_customer_coordinates = np.array([chromosome.customers[crossover_customer_id][0][0],
+                                                   chromosome.customers[crossover_customer_id][0][1]])
+
+        for route_index, route in enumerate(chromosome.routes[depot_id]):
+            if len(route) > 0:
+                for customer_index, route_customer_id in enumerate(route):
+                    route_customer_coordinates = np.array([chromosome.customers[route_customer_id][0][0],
+                                                           chromosome.customers[route_customer_id][0][1]])
+
+                    distance = np.linalg.norm(crossover_customer_coordinates - route_customer_coordinates)
+                    if distance < best_customer_to_follow[1]:
+                        best_customer_to_follow = [route_customer_id, distance, [route_index, customer_index]]
+            else:
+                depot_coordinates = np.array([chromosome.depots[depot_id][0][0], chromosome.depots[depot_id][0][1]])
+
+                distance_to_depot = np.linalg.norm(crossover_customer_coordinates - depot_coordinates)
+                if distance_to_depot < best_customer_to_follow[1]:
+                    best_customer_to_follow = [0, distance_to_depot, [route_index, 0]]
+
+        chromosome.routes[depot_id][best_customer_to_follow[2][0]].insert(best_customer_to_follow[2][1] + 1,
+                                                                          crossover_customer_id)
+
+    return chromosome
+
+
 class Chromosome:
     route_memo = {}
     load_memo = {}
@@ -42,14 +70,21 @@ class Chromosome:
         for _, routes in c2.routes.items():
             for i in range(len(routes)):
                 routes[i] = [x for x in routes[i] if x not in c1_route]
+        # print("c1 old", c1.routes[depot_id])
+        c1 = put_in_least_cost_place(c1, c2_route, depot_id)
+        # print("c1 new", c1.routes[depot_id])
+        # print("c2 old", c2.routes[depot_id])
+        c2 = put_in_least_cost_place(c2, c1_route, depot_id)
+        # print("c2 new", c2.routes[depot_id])
+        # print("new")
 
-        for number in c2_route:
-            route = random.choice(c1.routes[depot_id])
-            route.insert(random.randint(0, len(route)), number)
-
-        for number in c1_route:
-            route = random.choice(c2.routes[depot_id])
-            route.insert(random.randint(0, len(route)), number)
+        # for number in c2_route:
+        #     route = random.choice(c1.routes[depot_id])
+        #     route.insert(random.randint(0, len(route)), number)
+        #
+        # for number in c1_route:
+        #     route = random.choice(c2.routes[depot_id])
+        #     route.insert(random.randint(0, len(route)), number)
         return c1, c2
 
     def intra_depot_mutation(self, probability: float = 0.8):
