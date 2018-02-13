@@ -6,7 +6,7 @@ from pprint import pprint
 
 
 class Population:
-    def __init__(self, customers, depots, max_vehicles, size: int = 100):
+    def __init__(self, customers, depots, max_vehicles, size: int = 200):
         self.customers = customers
         self.depots = depots
         self.max_vehicles = max_vehicles
@@ -22,8 +22,8 @@ class Population:
             p1 = winners[0]
             p2 = winners[1]
             c1, c2 = Chromosome.crossover(p1, p2)
-            c1.intra_depot_mutation()
-            c2.intra_depot_mutation()
+            c1.mutation()
+            c2.mutation()
             new_population.extend([c1, c2])
         self.population = new_population
         best = self.get_fittest(self.population, 1)[0]
@@ -38,10 +38,10 @@ class Population:
 
 
 if __name__ == '__main__':
-    c, d, m = read_problem_file("../data/problem/p01")
+    c, d, m = read_problem_file("../data/problem/p23")
     population = Population(c, d, m)
     start = time.time()
-    for i in range(1, 1001):
+    for i in range(1, 500):
         population.evolve()
 
     print(time.time() - start)

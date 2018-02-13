@@ -1,31 +1,29 @@
-import numpy as np
 import random
 from copy import deepcopy
 from collections import defaultdict
-from pprint import pprint
 from typing import Dict, Tuple
-from src.util import read_problem_file, copy_dict
+from src.util import copy_dict, euclidean_distance
 
 
 def put_in_least_cost_place(chromosome, route, depot_id):
     for crossover_customer_id in route:
         best_customer_to_follow = [None, float('inf')]
-        crossover_customer_coordinates = np.array([chromosome.customers[crossover_customer_id][0][0],
-                                                   chromosome.customers[crossover_customer_id][0][1]])
+        crossover_customer_coordinates = (chromosome.customers[crossover_customer_id][0][0],
+                                          chromosome.customers[crossover_customer_id][0][1])
 
         for route_index, route in enumerate(chromosome.routes[depot_id]):
             if len(route) > 0:
                 for customer_index, route_customer_id in enumerate(route):
-                    route_customer_coordinates = np.array([chromosome.customers[route_customer_id][0][0],
-                                                           chromosome.customers[route_customer_id][0][1]])
+                    route_customer_coordinates = (chromosome.customers[route_customer_id][0][0],
+                                                  chromosome.customers[route_customer_id][0][1])
 
-                    distance = np.linalg.norm(crossover_customer_coordinates - route_customer_coordinates)
+                    distance = euclidean_distance(crossover_customer_coordinates, route_customer_coordinates)
                     if distance < best_customer_to_follow[1]:
                         best_customer_to_follow = [route_customer_id, distance, [route_index, customer_index]]
             else:
-                depot_coordinates = np.array([chromosome.depots[depot_id][0][0], chromosome.depots[depot_id][0][1]])
+                depot_coordinates = (chromosome.depots[depot_id][0][0], chromosome.depots[depot_id][0][1])
 
-                distance_to_depot = np.linalg.norm(crossover_customer_coordinates - depot_coordinates)
+                distance_to_depot = euclidean_distance(crossover_customer_coordinates, depot_coordinates)
                 if distance_to_depot < best_customer_to_follow[1]:
                     best_customer_to_follow = [0, distance_to_depot, [route_index, 0]]
 
@@ -55,9 +53,6 @@ class Chromosome:
         c1.routes = copy_dict(p1.routes)
         c2.routes = copy_dict(p2.routes)
 
-        if random.random() < 0.4:  # TODO: remember
-            return c1, c2
-
         depot_id = random.choice(list(c1.depots.keys()))
 
         c1_route = random.choice(c1.routes[depot_id])
@@ -70,24 +65,17 @@ class Chromosome:
         for _, routes in c2.routes.items():
             for i in range(len(routes)):
                 routes[i] = [x for x in routes[i] if x not in c1_route]
-        # print("c1 old", c1.routes[depot_id])
-        c1 = put_in_least_cost_place(c1, c2_route, depot_id)
-        # print("c1 new", c1.routes[depot_id])
-        # print("c2 old", c2.routes[depot_id])
-        c2 = put_in_least_cost_place(c2, c1_route, depot_id)
-        # print("c2 new", c2.routes[depot_id])
-        # print("new")
 
-        # for number in c2_route:
-        #     route = random.choice(c1.routes[depot_id])
-        #     route.insert(random.randint(0, len(route)), number)
-        #
-        # for number in c1_route:
-        #     route = random.choice(c2.routes[depot_id])
-        #     route.insert(random.randint(0, len(route)), number)
+        c1 = put_in_least_cost_place(c1, c2_route, depot_id)
+        c2 = put_in_least_cost_place(c2, c1_route, depot_id)
+
         return c1, c2
 
-    def intra_depot_mutation(self, probability: float = 0.8):
+    def mutation(self):
+        self._intra_depot_mutation(0.9)
+        self._inter_depot_mutation(0.3)
+
+    def _intra_depot_mutation(self, probability: float = 0.8):
         def swapping() -> None:
             depot_id = random.choice(list(self.depots.keys()))
             route1 = random.choice(self.routes[depot_id])
@@ -110,7 +98,7 @@ class Chromosome:
         if random.random() < probability:
             mutate()
 
-    def inter_depot_mutation(self, probability: float = 0.25) -> None:
+    def _inter_depot_mutation(self, probability: float = 0.1) -> None:
         if random.random() < probability:
             depot_id = random.choice(list(self.depots.keys()))
             route = random.choice(self.routes[depot_id])
@@ -129,7 +117,7 @@ class Chromosome:
             best_depot = None
             for depot_id in self.depots:
                 depot_coordinate = self.depots[depot_id][0]
-                distance = np.linalg.norm(customer_coordinate - depot_coordinate)
+                distance = euclidean_distance(customer_coordinate, depot_coordinate)
                 if distance < best_distance:
                     best_depot = depot_id
                     best_distance = distance
@@ -142,7 +130,7 @@ class Chromosome:
             customer_coordinate = self.customers[customer_id][0]
             for depot_id in self.depots:
                 depot_coordinate = self.depots[depot_id][0]
-                distance = np.linalg.norm(customer_coordinate - depot_coordinate)
+                distance = euclidean_distance(customer_coordinate, depot_coordinate)
                 if distance < cluster[customer_id][1]:
                     cluster[customer_id] = depot_id, distance
 
@@ -152,7 +140,7 @@ class Chromosome:
             customer_coordinate = self.customers[customer_id][0]
             for depot_id in self.depots:
                 depot_coordinate = self.depots[depot_id][0]
-                distance = np.linalg.norm(customer_coordinate - depot_coordinate)
+                distance = euclidean_distance(customer_coordinate, depot_coordinate)
                 if ((distance - cluster[customer_id][1]) / cluster[customer_id][1]) <= 2:
                     swap_cluster[customer_id].append(depot_id)
         return swap_cluster
@@ -181,7 +169,7 @@ class Chromosome:
                     trip.insert(0, depot_coordinate)
                     route_distance = 0
                     for i in range(len(trip) - 1):
-                        route_distance += np.linalg.norm(trip[i] - trip[i + 1])
+                        route_distance += euclidean_distance(trip[i], trip[i + 1])
                     Chromosome.route_memo[key] = route_distance
                     distance += route_distance
         return distance
@@ -202,4 +190,4 @@ class Chromosome:
 
     def calculate_fitness(self):
         load = self.calculate_excess_load()
-        return 1 / (self.calculate_distance() * ((load) + 1)) * 1000
+        return 1 / (self.calculate_distance() * (load + 1)) * 1000
