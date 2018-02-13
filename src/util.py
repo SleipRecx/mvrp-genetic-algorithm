@@ -40,5 +40,35 @@ def copy_dict(to_copy: Dict) -> Dict:
     return result
 
 
+def write_results_to_file(chromosome, file_number):
+    file_name = "../data/our_solution/" + file_number + ".res"
+    file = open(file_name, "w")
+    file.write('%s\n' % (chromosome.calculate_distance()))
+    for depot_id, routes in chromosome.routes.items():
+        depot_coordinates = chromosome.depots[depot_id][0]
+        for i in range(len(routes)):
+            customer_demand = 0
+            distance = 0
+            previous_coordinates = None
+            for j in range(len(routes[i])):
+                customer_id = routes[i][j]
+                current_coordinates = chromosome.customers[customer_id][0]
+                if j == 0:
+                    previous_coordinates = depot_coordinates
+
+                elif j == len(routes[i]):
+                    current_coordinates = depot_coordinates
+
+                distance += euclidean_distance(current_coordinates, previous_coordinates)
+                previous_coordinates = current_coordinates
+                customer_demand += chromosome.customers[routes[i][j]][2]
+            if len(routes[i]) > 0:
+                route = ' '.join([str(customer) for customer in routes[i]])
+                file.write('%s   %s   %.2f   %s   %s\n' % (depot_id, i, distance, customer_demand, route))
+
+
+
+
+
 def euclidean_distance(p1, p2):
     return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
