@@ -78,8 +78,8 @@ class Chromosome:
         self._intra_depot_mutation(0.9)
         # self._inter_depot_mutation(0.9)
 
-    def _intra_depot_mutation(self, probability: float = 0.8):
-        def swapping() -> None:
+    def _intra_depot_mutation(self, probability):
+        def swapping():
             depot_id = random.choice(list(self.depots.keys()))
             route1 = random.choice(self.routes[depot_id])
             if len(route1) > 0:
@@ -89,7 +89,7 @@ class Chromosome:
                 position = random.randint(0, len(route2))
                 route2.insert(position, customer)
 
-        def route_reversal() -> None:
+        def route_reversal():
             depot_id = random.choice(list(self.depots.keys()))
             route = random.choice(self.routes[depot_id])
             if len(route) > 0:
@@ -97,11 +97,10 @@ class Chromosome:
                 points.sort()
                 route[points[0]:points[1]] = list(reversed(route[points[0]:points[1]]))
 
-        mutate = random.choice([route_reversal, swapping])
         if random.random() < probability:
-            mutate()
+            random.choice([route_reversal, swapping])()
 
-    def _inter_depot_mutation(self, probability: float = 0.1) -> None:
+    def _inter_depot_mutation(self, probability):
         if random.random() < probability:
             depot_id = random.choice(list(self.depots.keys()))
             route = random.choice(self.routes[depot_id])
@@ -163,7 +162,10 @@ class Chromosome:
         for depot_id, routes in self.routes.items():
             depot_coordinate = self.depots[depot_id][0]
             for route in routes:
-                key = str(depot_id) + str(route)
+                key = route[:]
+                key.append(depot_id)
+                key = hash(tuple(key))
+
                 if key in Chromosome.route_memo:
                     distance += Chromosome.route_memo[key]
                 else:
@@ -181,6 +183,7 @@ class Chromosome:
         excess_load = 0
         for depot_id, routes in self.routes.items():
             for route in routes:
+                #key = hash(tuple(route))
                 key = str(route)
                 if key in Chromosome.load_memo:
                     load = Chromosome.load_memo[key]
