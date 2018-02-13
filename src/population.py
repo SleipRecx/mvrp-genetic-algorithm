@@ -6,7 +6,7 @@ from pprint import pprint
 
 
 class Population:
-    def __init__(self, customers, depots, max_vehicles, size: int = 200):
+    def __init__(self, customers, depots, max_vehicles, size: int = 100):
         self.customers = customers
         self.depots = depots
         self.max_vehicles = max_vehicles
@@ -38,10 +38,10 @@ class Population:
 
 
 if __name__ == '__main__':
-    c, d, m = read_problem_file("../data/problem/p23")
+    c, d, m = read_problem_file("../data/problem/p01")
     population = Population(c, d, m)
     start = time.time()
-    for i in range(1, 500):
+    for i in range(1, 100):
         population.evolve()
 
     print(time.time() - start)
