@@ -5,30 +5,33 @@ from typing import Dict, Tuple
 from src.util import copy_dict, euclidean_distance
 
 
-def put_in_least_cost_place(chromosome, route, depot_id):
+def put_in_least_cost_place(chromosome, route):
     for crossover_customer_id in route:
         best_customer_to_follow = [None, float('inf')]
         crossover_customer_coordinates = (chromosome.customers[crossover_customer_id][0][0],
                                           chromosome.customers[crossover_customer_id][0][1])
 
-        for route_index, route in enumerate(chromosome.routes[depot_id]):
-            if len(route) > 0:
-                for customer_index, route_customer_id in enumerate(route):
-                    route_customer_coordinates = (chromosome.customers[route_customer_id][0][0],
-                                                  chromosome.customers[route_customer_id][0][1])
+        for depot_id in chromosome.depots:
 
-                    distance = euclidean_distance(crossover_customer_coordinates, route_customer_coordinates)
-                    if distance < best_customer_to_follow[1]:
-                        best_customer_to_follow = [route_customer_id, distance, [route_index, customer_index]]
-            else:
-                depot_coordinates = (chromosome.depots[depot_id][0][0], chromosome.depots[depot_id][0][1])
+            for route_index, route in enumerate(chromosome.routes[depot_id]):
+                if len(route) > 0:
+                    for customer_index, route_customer_id in enumerate(route):
+                        route_customer_coordinates = (chromosome.customers[route_customer_id][0][0],
+                                                      chromosome.customers[route_customer_id][0][1])
 
-                distance_to_depot = euclidean_distance(crossover_customer_coordinates, depot_coordinates)
-                if distance_to_depot < best_customer_to_follow[1]:
-                    best_customer_to_follow = [0, distance_to_depot, [route_index, 0]]
+                        distance = euclidean_distance(crossover_customer_coordinates, route_customer_coordinates)
+                        if distance < best_customer_to_follow[1]:
+                            best_customer_to_follow = \
+                                [route_customer_id, distance, [route_index, customer_index], depot_id]
+                else:
+                    depot_coordinates = (chromosome.depots[depot_id][0][0], chromosome.depots[depot_id][0][1])
 
-        chromosome.routes[depot_id][best_customer_to_follow[2][0]].insert(best_customer_to_follow[2][1] + 1,
-                                                                          crossover_customer_id)
+                    distance_to_depot = euclidean_distance(crossover_customer_coordinates, depot_coordinates)
+                    if distance_to_depot < best_customer_to_follow[1]:
+                        best_customer_to_follow = [0, distance_to_depot, [route_index, 0], depot_id]
+
+        chromosome.routes[best_customer_to_follow[3]][best_customer_to_follow[2][0]].\
+            insert(best_customer_to_follow[2][1] + 1, crossover_customer_id)
 
     return chromosome
 
@@ -66,14 +69,14 @@ class Chromosome:
             for i in range(len(routes)):
                 routes[i] = [x for x in routes[i] if x not in c1_route]
 
-        c1 = put_in_least_cost_place(c1, c2_route, depot_id)
-        c2 = put_in_least_cost_place(c2, c1_route, depot_id)
+        c1 = put_in_least_cost_place(c1, c2_route)
+        c2 = put_in_least_cost_place(c2, c1_route)
 
         return c1, c2
 
     def mutation(self):
         self._intra_depot_mutation(0.9)
-        self._inter_depot_mutation(0.3)
+        # self._inter_depot_mutation(0.9)
 
     def _intra_depot_mutation(self, probability: float = 0.8):
         def swapping() -> None:
