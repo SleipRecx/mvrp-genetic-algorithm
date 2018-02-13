@@ -1,15 +1,15 @@
 import random
-import time
-from src.chromosome import Chromosome
-from src.util import read_problem_file
-from pprint import pprint
+from chromosome import Chromosome
 
 
 class Population:
-    def __init__(self, customers, depots, max_vehicles, size: int = 100):
+    def __init__(self, customers, depots, max_vehicles, size, p_crossover, p_inter, p_intra):
         self.customers = customers
         self.depots = depots
         self.max_vehicles = max_vehicles
+        self.crossover_probability = p_crossover
+        self.intra_depot_probability = p_intra
+        self.inter_depot_probability = p_inter
         self.population = [Chromosome(self.customers, self.depots, self.max_vehicles) for _ in range(size)]
 
     def evolve(self):
@@ -21,27 +21,23 @@ class Population:
             winners = self.get_fittest(tournament, 2)
             p1 = winners[0]
             p2 = winners[1]
-            c1, c2 = Chromosome.crossover(p1, p2)
-            c1.mutation()
-            c2.mutation()
+            c1, c2 = Chromosome.crossover(p1, p2, self.crossover_probability)
+            c1.intra_depot_mutation(self.intra_depot_probability)
+            c2.intra_depot_mutation(self.intra_depot_probability)
+            c1.inter_depot_mutation(self.inter_depot_probability)
+            c2.inter_depot_mutation(self.inter_depot_probability)
             new_population.extend([c1, c2])
         self.population = new_population
+        self.print_summary()
+
+    def print_summary(self):
         best = self.get_fittest(self.population, 1)[0]
-        print("Distance:", best.calculate_distance())
-        print("Load:", best.calculate_excess_load())
+        print("fitness:", best.calculate_fitness())
+        print("distance:", best.calculate_distance())
+        print("excess load:", best.calculate_excess_load())
 
     @staticmethod
     def get_fittest(individuals: list, number: int) -> list:
         assert number <= len(individuals)
         fitness_sorted = sorted(individuals, key=lambda x: x.calculate_fitness(), reverse=True)
         return fitness_sorted[0:number]
-
-
-if __name__ == '__main__':
-    c, d, m = read_problem_file("../data/problem/p01")
-    population = Population(c, d, m)
-    start = time.time()
-    for i in range(1, 100):
-        population.evolve()
-
-    print(time.time() - start)

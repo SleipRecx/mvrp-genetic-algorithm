@@ -2,38 +2,7 @@ import random
 from copy import deepcopy
 from collections import defaultdict
 from typing import Dict, Tuple
-from src.util import copy_dict, euclidean_distance
-
-
-def put_in_least_cost_place(chromosome, route):
-    for crossover_customer_id in route:
-        best_customer_to_follow = [None, float('inf')]
-        crossover_customer_coordinates = (chromosome.customers[crossover_customer_id][0][0],
-                                          chromosome.customers[crossover_customer_id][0][1])
-
-        for depot_id in chromosome.depots:
-
-            for route_index, route in enumerate(chromosome.routes[depot_id]):
-                if len(route) > 0:
-                    for customer_index, route_customer_id in enumerate(route):
-                        route_customer_coordinates = (chromosome.customers[route_customer_id][0][0],
-                                                      chromosome.customers[route_customer_id][0][1])
-
-                        distance = euclidean_distance(crossover_customer_coordinates, route_customer_coordinates)
-                        if distance < best_customer_to_follow[1]:
-                            best_customer_to_follow = \
-                                [route_customer_id, distance, [route_index, customer_index], depot_id]
-                else:
-                    depot_coordinates = (chromosome.depots[depot_id][0][0], chromosome.depots[depot_id][0][1])
-
-                    distance_to_depot = euclidean_distance(crossover_customer_coordinates, depot_coordinates)
-                    if distance_to_depot < best_customer_to_follow[1]:
-                        best_customer_to_follow = [0, distance_to_depot, [route_index, 0], depot_id]
-
-        chromosome.routes[best_customer_to_follow[3]][best_customer_to_follow[2][0]].\
-            insert(best_customer_to_follow[2][1] + 1, crossover_customer_id)
-
-    return chromosome
+from util import copy_dict, euclidean_distance
 
 
 class Chromosome:
@@ -49,36 +18,35 @@ class Chromosome:
             self.routes = self.generate_random_routes()
 
     @classmethod
-    def crossover(cls, p1, p2) -> Tuple:
+    def crossover(cls, p1, p2, probability: float) -> Tuple:
         c1 = cls(p1.customers, p1.depots, p1.max_vehicles, False)
         c2 = cls(p2.customers, p2.depots, p2.max_vehicles, False)
-
         c1.routes = copy_dict(p1.routes)
         c2.routes = copy_dict(p2.routes)
 
-        depot_id = random.choice(list(c1.depots.keys()))
+        if random.random() < probability:
+            depot_id = random.choice(list(c1.depots.keys()))
 
-        c1_route = random.choice(c1.routes[depot_id])
-        c2_route = random.choice(c2.routes[depot_id])
+            c1_route = random.choice(c1.routes[depot_id])
+            c2_route = random.choice(c2.routes[depot_id])
 
-        for _, routes in c1.routes.items():
-            for i in range(len(routes)):
-                routes[i] = [x for x in routes[i] if x not in c2_route]
+            for _, routes in c1.routes.items():
+                for i in range(len(routes)):
+                    routes[i] = [x for x in routes[i] if x not in c2_route]
 
-        for _, routes in c2.routes.items():
-            for i in range(len(routes)):
-                routes[i] = [x for x in routes[i] if x not in c1_route]
+            for _, routes in c2.routes.items():
+                for i in range(len(routes)):
+                    routes[i] = [x for x in routes[i] if x not in c1_route]
 
-        c1 = put_in_least_cost_place(c1, c2_route)
-        c2 = put_in_least_cost_place(c2, c1_route)
+            for customer in c2_route:
+                c1.move_to_best_location(customer)
+
+            for customer in c1_route:
+                c2.move_to_best_location(customer)
 
         return c1, c2
 
-    def mutation(self):
-        self._intra_depot_mutation(0.9)
-        # self._inter_depot_mutation(0.9)
-
-    def _intra_depot_mutation(self, probability):
+    def intra_depot_mutation(self, probability):
         def swapping():
             depot_id = random.choice(list(self.depots.keys()))
             route1 = random.choice(self.routes[depot_id])
@@ -100,7 +68,7 @@ class Chromosome:
         if random.random() < probability:
             random.choice([route_reversal, swapping])()
 
-    def _inter_depot_mutation(self, probability):
+    def inter_depot_mutation(self, probability):
         if random.random() < probability:
             depot_id = random.choice(list(self.depots.keys()))
             route = random.choice(self.routes[depot_id])
@@ -135,9 +103,7 @@ class Chromosome:
                 distance = euclidean_distance(customer_coordinate, depot_coordinate)
                 if distance < cluster[customer_id][1]:
                     cluster[customer_id] = depot_id, distance
-
         swap_cluster = defaultdict(list)
-
         for customer_id in self.customers:
             customer_coordinate = self.customers[customer_id][0]
             for depot_id in self.depots:
@@ -165,7 +131,6 @@ class Chromosome:
                 key = route[:]
                 key.append(depot_id)
                 key = hash(tuple(key))
-
                 if key in Chromosome.route_memo:
                     distance += Chromosome.route_memo[key]
                 else:
@@ -179,12 +144,26 @@ class Chromosome:
                     distance += route_distance
         return distance
 
+    def move_to_best_location(self, customer):
+        best = (None, None, None)
+        best_score = float("-inf")
+        for depot_id, routes in self.routes.items():
+            for i in range(0, len(routes)):
+                for j in range(0, len(routes[i]) + 1):
+                    routes[i].insert(j, customer)
+                    fitness = self.calculate_fitness()
+                    del routes[i][j]
+                    if fitness > best_score:
+                        best = depot_id, i, j
+                        best_score = fitness
+        depot, route, pos = best
+        self.routes[depot][route].insert(pos, customer)
+
     def calculate_excess_load(self):
         excess_load = 0
         for depot_id, routes in self.routes.items():
             for route in routes:
-                #key = hash(tuple(route))
-                key = str(route)
+                key = hash(tuple(route))
                 if key in Chromosome.load_memo:
                     load = Chromosome.load_memo[key]
                 else:
