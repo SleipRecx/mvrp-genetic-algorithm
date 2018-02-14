@@ -2,7 +2,8 @@ import random
 from copy import deepcopy
 from collections import defaultdict
 from typing import Dict, Tuple
-from util import copy_dict, euclidean_distance
+
+from util import euclidean_distance, copy_dict
 
 
 class Chromosome:
@@ -128,9 +129,7 @@ class Chromosome:
         for depot_id, routes in self.routes.items():
             depot_coordinate = self.depots[depot_id][0]
             for route in routes:
-                key = route[:]
-                key.append(depot_id)
-                key = hash(tuple(key))
+                key = hash((depot_id, tuple(route)))
                 if key in Chromosome.route_memo:
                     distance += Chromosome.route_memo[key]
                 else:

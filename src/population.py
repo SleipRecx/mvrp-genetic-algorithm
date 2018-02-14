@@ -3,20 +3,22 @@ from chromosome import Chromosome
 
 
 class Population:
-    def __init__(self, customers, depots, max_vehicles, size, p_crossover, p_inter, p_intra):
+    def __init__(self, customers, depots, max_vehicles, size, p_crossover, p_inter, p_intra, elites):
         self.customers = customers
         self.depots = depots
         self.max_vehicles = max_vehicles
         self.crossover_probability = p_crossover
         self.intra_depot_probability = p_intra
         self.inter_depot_probability = p_inter
+        self.elites = elites
         self.population = [Chromosome(self.customers, self.depots, self.max_vehicles) for _ in range(size)]
+        self.best = self.get_fittest(self.population, 1)[0]
 
     def evolve(self):
         new_population = []
-        elites = self.get_fittest(self.population, 2)
+        elites = self.get_fittest(self.population, self.elites)
         new_population.extend(elites)
-        while len(new_population) <= len(self.population) - 2:
+        for _ in range((len(self.population) - self.elites) // 2):
             tournament = random.sample(self.population, random.randint(2, 5))
             winners = self.get_fittest(tournament, 2)
             p1 = winners[0]
@@ -28,13 +30,12 @@ class Population:
             c2.inter_depot_mutation(self.inter_depot_probability)
             new_population.extend([c1, c2])
         self.population = new_population
-        self.print_summary()
 
     def print_summary(self):
-        best = self.get_fittest(self.population, 1)[0]
-        print("fitness:", best.calculate_fitness())
-        print("distance:", best.calculate_distance())
-        print("excess load:", best.calculate_excess_load())
+        self.best = self.get_fittest(self.population, 1)[0]
+        print("fitness:", self.best.calculate_fitness())
+        print("distance:", self.best.calculate_distance())
+        print("excess load:", self.best.calculate_excess_load())
 
     @staticmethod
     def get_fittest(individuals: list, number: int) -> list:

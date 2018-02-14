@@ -3,6 +3,8 @@ from collections import defaultdict
 import math
 from typing import Dict
 
+import time
+
 
 def read_problem_file(filename: str) -> Tuple:
     file = open(filename, "r")
@@ -42,3 +44,14 @@ def copy_dict(to_copy: Dict) -> Dict:
 
 def euclidean_distance(p1, p2):
     return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
+
+
+def timeit(method):
+    def measure_time(*args, **kw):
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+        print('function %r used %2.2f ms' % (method.__name__, (te - ts) * 1000))
+        return result
+
+    return measure_time
