@@ -59,14 +59,17 @@ def write_results_to_file(chromosome, file_number):
                     previous_coordinates = depot_coordinates
 
                 elif j == len(routes[i]):
+                    print("test")
                     current_coordinates = depot_coordinates
 
                 distance += euclidean_distance(current_coordinates, previous_coordinates)
                 previous_coordinates = current_coordinates
                 customer_demand += chromosome.customers[routes[i][j]][2]
             if len(routes[i]) > 0:
+                routes[i].insert(0, 0)
+                routes[i].insert(len(routes[i]), 0)
                 route = ' '.join([str(customer) for customer in routes[i]])
-                file.write('%s   %s   %.2f   %s   %s\n' % (depot_id, i, distance, customer_demand, route))
+                file.write('{:d}   {:d}   {:.2f}   {:d}   {}\n'.format(depot_id, i, distance, customer_demand, route))
 
 
 def euclidean_distance(p1, p2):
