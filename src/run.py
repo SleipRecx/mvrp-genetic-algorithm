@@ -1,7 +1,7 @@
 import time
 
 from population import Population
-from util import read_problem_file, timeit
+from util import read_problem_file, timeit, write_results_to_file
 
 PROBLEM = "p01"
 POPULATION_SIZE = 100
@@ -32,6 +32,7 @@ def main():
         print("\nAborting")
     finally:
         print(population.print_summary())
+        write_results_to_file(population.best, PROBLEM + "-" + str(int(population.best.calculate_distance())))
 
 
 if __name__ == '__main__':

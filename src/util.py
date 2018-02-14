@@ -69,9 +69,6 @@ def write_results_to_file(chromosome, file_number):
                 file.write('%s   %s   %.2f   %s   %s\n' % (depot_id, i, distance, customer_demand, route))
 
 
-
-
-
 def euclidean_distance(p1, p2):
     return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
 
