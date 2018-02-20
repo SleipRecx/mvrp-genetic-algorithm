@@ -126,12 +126,18 @@ class Chromosome:
 
     def calculate_distance(self):
         distance = 0
+        excess_duration = 0
         for depot_id, routes in self.routes.items():
             depot_coordinate = self.depots[depot_id][0]
+            max_duration = self.depots[depot_id][1]
             for route in routes:
                 key = hash((depot_id, tuple(route)))
                 if key in Chromosome.route_memo:
-                    distance += Chromosome.route_memo[key]
+                    route_distance = Chromosome.route_memo[key]
+                    distance += route_distance
+                    if max_duration != 0:
+                        if route_distance > max_duration:
+                            excess_duration += route_distance - max_duration
                 else:
                     trip = list(map(lambda x: self.customers[x][0], route))
                     trip.append(depot_coordinate)
@@ -141,7 +147,10 @@ class Chromosome:
                         route_distance += euclidean_distance(trip[i], trip[i + 1])
                     Chromosome.route_memo[key] = route_distance
                     distance += route_distance
-        return distance
+                    if max_duration != 0:
+                        if route_distance > max_duration:
+                            excess_duration += route_distance - max_duration
+        return distance, excess_duration
 
     def move_to_best_location(self, customer):
         best = (None, None, None)
@@ -174,4 +183,5 @@ class Chromosome:
 
     def calculate_fitness(self):
         load = self.calculate_excess_load()
-        return 1 / (self.calculate_distance() * (load + 1)) * 1000
+        distance, duration = self.calculate_distance()
+        return 1 / (distance * (load/50 + 1) * (duration + 1))

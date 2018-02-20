@@ -32,6 +32,7 @@ def read_problem_file(filename: str) -> Tuple:
         max_duration = tmp_depots[i][0]
         max_load = tmp_depots[i][1]
         depots[depot_id].extend([coordinate, max_duration, max_load])
+
     return customers, depots, max_vehicles
 
 
@@ -45,7 +46,7 @@ def copy_dict(to_copy: Dict) -> Dict:
 def write_results_to_file(chromosome, file_number):
     file_name = "../data/our_solution/" + file_number + ".res"
     file = open(file_name, "w")
-    file.write('%s\n' % (chromosome.calculate_distance()))
+    file.write('%s\n' % (chromosome.calculate_distance()[0]))
     for depot_id, routes in chromosome.routes.items():
         depot_coordinates = chromosome.depots[depot_id][0]
         for i in range(len(routes)):

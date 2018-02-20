@@ -19,7 +19,7 @@ class Population:
         elites = self.get_fittest(self.population, self.elites)
         new_population.extend(elites)
         for _ in range((len(self.population) - self.elites) // 2):
-            tournament = random.sample(self.population, random.randint(2, 5))
+            tournament = random.sample(self.population, random.randint(2, 2))
             winners = self.get_fittest(tournament, 2)
             p1 = winners[0]
             p2 = winners[1]
@@ -34,8 +34,10 @@ class Population:
     def print_summary(self):
         self.best = self.get_fittest(self.population, 1)[0]
         print("fitness:", self.best.calculate_fitness())
-        print("distance:", self.best.calculate_distance())
-        print("excess load:", self.best.calculate_excess_load())
+        print("distance:", self.best.calculate_distance()[0])
+        print("duration over:", self.best.calculate_distance()[1])
+        print("load over", self.best.calculate_excess_load())
+        print("-" * 35)
 
     @staticmethod
     def get_fittest(individuals: list, number: int) -> list:

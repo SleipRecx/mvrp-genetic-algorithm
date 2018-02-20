@@ -1,15 +1,13 @@
-import time
-
 from population import Population
 from util import read_problem_file, timeit, write_results_to_file
 
-PROBLEM = "p01"
-POPULATION_SIZE = 100
-GENERATIONS = 250
-ELITES = 4
+PROBLEM = "2"
+POPULATION_SIZE = 2
+GENERATIONS = 10000
+ELITES = 0
 CROSSOVER_PROBABILITY = 0.8
 INTRA_DEPOT_PROBABILITY = 0.2
-INTER_DEPOT_PROBABILITY = 0.02
+INTER_DEPOT_PROBABILITY = 0.00
 
 
 @timeit
@@ -32,7 +30,7 @@ def main():
         print("\nAborting")
     finally:
         print(population.print_summary())
-        write_results_to_file(population.best, PROBLEM + "-" + str(int(population.best.calculate_distance())))
+        write_results_to_file(population.best, PROBLEM + "-" + str(int(population.best.calculate_distance()[0])))
 
 
 if __name__ == '__main__':

@@ -36,8 +36,8 @@ def plot(filename, filepath) -> None:
             plt.plot(x_cords, y_cords, zorder=1)
 
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5,
-                   handles=[mpatches.Patch(color='black', label=str(len(customers)) + ' Customers'),
-                            mpatches.Patch(color='red', label=str(len(depots)) + ' Depots')])
+               handles=[mpatches.Patch(color='black', label=str(len(customers)) + ' Customers'),
+                        mpatches.Patch(color='red', label=str(len(depots)) + ' Depots')])
 
     plt.show()
 
@@ -57,11 +57,13 @@ def read_results_file(filename):
 
 if __name__ == '__main__':
     path = "../data/our_solution/"
-    filenames = sorted(os.listdir("../data/our_solution/"), key=lambda x: os.path.getctime(path+x), reverse=True)
-    for i, file in enumerate(filenames):
-        print(i + 1, file)
-
-    selection = int(input("Select the file number you would like to plot: "))
-    filename = filenames[selection - 1]
-    print("FILE", filename)
-    plot(filename, path)
+    while True:
+        try:
+            filenames = sorted(os.listdir(path), key=lambda x: os.path.getctime(path + x), reverse=True)
+            for i in range(0, len(filenames)):
+                print(i + 1, filenames[i])
+            selection = int(input("Select the file number you would like to plot: "))
+            filename = filenames[selection - 1]
+            plot(filename, path)
+        except Exception:
+            continue
